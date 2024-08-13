@@ -3,7 +3,7 @@ import { cookies } from 'next/headers'
 import jwt from 'jsonwebtoken'
 import UserModel from "@/models/userModel"
 import bcrypt from 'bcryptjs'
-import { appLog } from "@/_lib/appLogger"
+import { appLog, errLog } from "@/_lib/appLogger"
 
 export async function GET(request) {
     try {
@@ -21,7 +21,7 @@ export async function GET(request) {
         appLog({ user, login: true, token }, "login chcek")
         return Response.json({ user, login: true, token });
     } catch (err) {
-        console.log("error in login get", err)
+        errLog("error in login get", err)
         return Response.json({ login: false, error: err });
     }
 }

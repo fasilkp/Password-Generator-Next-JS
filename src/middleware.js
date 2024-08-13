@@ -19,10 +19,10 @@ export async function middleware(request) {
     const response = NextResponse.next()
     response.cookies.set('userId', data?.user?._id)
 
-    if (!data.login && pathname !== '/login') {
+    if (!data?.login && pathname !== '/login') {
       return response.redirect(new URL('/login', request.url));
     }
-    if (data.login && pathname === '/login') {
+    if (data?.login && pathname === '/login') {
       return response.redirect(new URL('/', request.url));
     }
     return response;
