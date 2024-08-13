@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server'
 import { cookies } from 'next/headers'
 import { appLog, errLog } from './_lib/appLogger';
 
-export async function middleware(request, params) {
+export async function middleware(request) {
   const { pathname } = request.nextUrl;
   try {
     const cookieStore = cookies()
@@ -13,8 +13,9 @@ export async function middleware(request, params) {
         'Authorization': token?.value,
       }
     });
+    appLog(res)
 
-    const data = await res.json()
+    const data = await res?.json();
     const response = NextResponse.next()
     response.cookies.set('userId', data?.user?._id)
 
@@ -26,8 +27,8 @@ export async function middleware(request, params) {
     }
     return response;
   } catch (err) {
-    errLog("middleware error", err, request.headers.get("Referer") === process.env.BASE_URL + "/login");
-    if (pathname !== process.env.BASE_URL + "/login") {
+    errLog("middleware error",pathname, err, request.headers.get("Referer") === process.env.BASE_URL + "/login");
+    if (pathname !== "/login") {
       return NextResponse.redirect(new URL('/login', request.url))
     }
   }
