@@ -3,7 +3,7 @@ import dbConnect from "../../../../../config/dbConnect"
 import { cookies } from "next/headers";
 import passwordModel from "@/models/passwordModel";
 
-export const DELETE = async (req, {params}) => {
+export const DELETE = async (_req, {params}) => {
     try {
         await dbConnect()
         const userId = cookies().get("userId").value;
