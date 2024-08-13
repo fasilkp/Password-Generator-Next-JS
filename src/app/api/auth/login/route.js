@@ -18,7 +18,7 @@ export async function GET(request) {
         if (!user) {
             return Response.json({ login: false, message: "invalid user" });
         }
-        
+        appLog({ user, login: true, token }, "login chcek")
         return Response.json({ user, login: true, token });
     } catch (err) {
         console.log("error in login get", err)
